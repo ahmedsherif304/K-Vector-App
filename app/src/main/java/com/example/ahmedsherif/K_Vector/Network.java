@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class Network {
-    String api="http//www.google.com";
+    String api="http://kvectorfoundation.com/k19/magazine";
     ArrayList<String> titles,urls;
     MagazineList magazinelist;
     HttpURLConnection httpURLConnection;
