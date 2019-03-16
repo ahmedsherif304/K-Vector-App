@@ -1,16 +1,18 @@
 package com.example.ahmedsherif.K_Vector;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MagazineList {
-    String title;
-    URL url;
-    MagazineList(String s,URL u){
+    ArrayList<String> title;
+    ArrayList<String> url;
+    ArrayList<String> images;
+    MagazineList(ArrayList<String> s, ArrayList<String> u){
         title=s;
         url=u;
     }
-    void setTitle(String s){title=s;}
-    void setUrl(URL u){url=u;}
-    URL getUrl(){return url;}
-    String getTitle(){return title;}
+    void setTitle(ArrayList<String> s){title=s;}
+    void setUrl(ArrayList<String> u){url=u;}
+    ArrayList<String> getUrl(){return url;}
+    ArrayList<String> getTitle(){return title;}
 }
