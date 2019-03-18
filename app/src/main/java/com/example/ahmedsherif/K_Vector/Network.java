@@ -26,38 +26,53 @@ public class Network {
     private JSONArray jsonArray;
     private JSONObject jsonObject;
 
-
+    String getArticle(String u){
+        try {
+            URL url = new URL(u);
+            Log.i("lolo","url");
+            httpURLConnection=(HttpURLConnection) url.openConnection();
+            Log.i("lolo","httpconnection");
+            httpURLConnection.setRequestMethod("GET");
+            Log.i("lolo","GET");
+            InputStream inputStream=httpURLConnection.getInputStream();
+            Log.i("lolo","inout stream");
+            scanner =new Scanner(inputStream,"utf-8").useDelimiter("\\A");
+            Log.i("lolo","scanner");
+            jsonstring=scanner.hasNext()?scanner.next():"";
+            jsonObject=new JSONObject(jsonstring);
+            Log.i("lolo","JO1");
+            jsonstring= jsonObject.getString("data");
+            Log.i("lolo","JS1");
+            jsonObject=new JSONObject(jsonstring);
+            Log.i("lolo","JO2");
+            jsonstring= jsonObject.getString("body");
+            Log.i("lolo","JS2");
+            httpURLConnection.disconnect();
+        }
+        catch (Exception e){
+            Log.i("lolo",e.getMessage());
+        }
+        return jsonstring;
+    }
     MagazineList getMagazineList(){
         try {
-            Log.i("lolo","beg2");
             titles=new ArrayList<>();
             urls=new ArrayList<>();
             URL url=new URL(api); ///Converting string into useful URL
-            Log.i("lolo","url");
-            Log.i("lolo","url connected");
             httpURLConnection=(HttpURLConnection) url.openConnection();///opening the connection with website
-            Log.i("lolo","http url");
             httpURLConnection.setRequestMethod("GET"); //////choosing the method to connect which is GET to get data from the URL
-            Log.i("lolo","GET");
             InputStream inputStream;
-            Log.i("lolo","input stream 1");
             inputStream=httpURLConnection.getInputStream();//getting the data from the website
-            Log.i("lolo","get input stream 2");
             scanner =new Scanner(inputStream,"utf-8").useDelimiter("\\A");//changing this data into string using scanner "\\A" means all the data
-            Log.i("lolo","scanner");
             jsonstring=scanner.hasNext()? scanner.next():"";//changing the scanner into string ""if it has any data""
-            Log.i("lolo","scanner to json");
             jsonArray=new JSONArray(jsonstring);// converting the string into json array
-            Log.i("lolo","json array");
             for (int i=0;i<jsonArray.length();i++){ ///getting objects of the array
-                Log.i("lolo","For Loop");
                 jsonObject=jsonArray.getJSONObject(i); //getting the  object
                 titles.add(jsonObject.getString("title")); ///adding the object with key title into the titles array
                 urls.add(jsonObject.getString("url")); //adding the object with key url to urls array
             }
             magazinelist=new MagazineList(titles,urls);///making new object of  Magazine List and adding titles and urls to it
             httpURLConnection.disconnect();///closing the connection with the website
-            Log.i("lolo","Disconnect");
         }
         ////catching some excepted errors
         catch (Exception e){

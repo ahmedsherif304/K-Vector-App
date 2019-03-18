@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class MagazineList {
     ArrayList<String> title;
     ArrayList<String> url;
-    ArrayList<String> images;
     MagazineList(ArrayList<String> s, ArrayList<String> u){
         title=s;
         url=u;
