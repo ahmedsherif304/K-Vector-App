@@ -1,24 +1,20 @@
 package com.example.ahmedsherif.K_Vector;
 
+import android.text.Html;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Network {
-    private String api="http://kvectorfoundation.com/k19/magazine/",jsonstring;
+    private String api="http://kvectorfoundation.com/k19/magazine/",jsonstring,htmltext;
     private Scanner scanner;
     private ArrayList<String> titles,urls;
     private MagazineList  magazinelist;
@@ -26,33 +22,25 @@ public class Network {
     private JSONArray jsonArray;
     private JSONObject jsonObject;
 
-    String getArticle(String u){
+    String getArticle(String u){////the Same as magazine list but getting article
         try {
             URL url = new URL(u);
-            Log.i("lolo","url");
             httpURLConnection=(HttpURLConnection) url.openConnection();
-            Log.i("lolo","httpconnection");
             httpURLConnection.setRequestMethod("GET");
-            Log.i("lolo","GET");
             InputStream inputStream=httpURLConnection.getInputStream();
-            Log.i("lolo","inout stream");
-            scanner =new Scanner(inputStream,"utf-8").useDelimiter("\\A");
-            Log.i("lolo","scanner");
+            scanner =new Scanner(inputStream).useDelimiter("\\A");
             jsonstring=scanner.hasNext()?scanner.next():"";
             jsonObject=new JSONObject(jsonstring);
-            Log.i("lolo","JO1");
             jsonstring= jsonObject.getString("data");
-            Log.i("lolo","JS1");
             jsonObject=new JSONObject(jsonstring);
-            Log.i("lolo","JO2");
             jsonstring= jsonObject.getString("body");
-            Log.i("lolo","JS2");
             httpURLConnection.disconnect();
+            htmltext= Html.fromHtml(jsonstring).toString();///converting the html string into html to view as page
         }
         catch (Exception e){
             Log.i("lolo",e.getMessage());
         }
-        return jsonstring;
+        return htmltext;
     }
     MagazineList getMagazineList(){
         try {
@@ -63,7 +51,7 @@ public class Network {
             httpURLConnection.setRequestMethod("GET"); //////choosing the method to connect which is GET to get data from the URL
             InputStream inputStream;
             inputStream=httpURLConnection.getInputStream();//getting the data from the website
-            scanner =new Scanner(inputStream,"utf-8").useDelimiter("\\A");//changing this data into string using scanner "\\A" means all the data
+            scanner =new Scanner(inputStream).useDelimiter("\\A");//changing this data into string using scanner "\\A" means all the data
             jsonstring=scanner.hasNext()? scanner.next():"";//changing the scanner into string ""if it has any data""
             jsonArray=new JSONArray(jsonstring);// converting the string into json array
             for (int i=0;i<jsonArray.length();i++){ ///getting objects of the array

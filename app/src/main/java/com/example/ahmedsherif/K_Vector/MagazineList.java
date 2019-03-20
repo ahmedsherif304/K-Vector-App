@@ -1,6 +1,5 @@
 package com.example.ahmedsherif.K_Vector;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MagazineList {

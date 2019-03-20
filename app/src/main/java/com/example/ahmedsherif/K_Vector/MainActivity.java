@@ -1,7 +1,8 @@
 package com.example.ahmedsherif.K_Vector;
 
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,34 +25,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            intent=new Intent(this,Main2Activity.class);
-            MagazineAsyncTask magazineAsyncTask = new MagazineAsyncTask();
-            magazineAsyncTask.execute(); //executing the parallel thread
-            titles = new ArrayList<>();
-            urls = new ArrayList<>();
-            L = findViewById(R.id.l1);
-            adapter = new ArrayAdapter<String>(this, R.layout.listview, titles);
-            L.setAdapter(adapter);
+        if (!isNetworkAvailable(this)) {
+            Toast toast = Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_SHORT);
+            toast.setGravity(0,50,50);
+            toast.show();
+
+        } else {
+            try {
+                intent = new Intent(this, Main2Activity.class);
+                MagazineAsyncTask magazineAsyncTask = new MagazineAsyncTask();
+                magazineAsyncTask.execute(); //executing the parallel thread
+                titles = new ArrayList<>();
+                urls = new ArrayList<>();
+                L = findViewById(R.id.l1);
+                adapter = new ArrayAdapter<String>(this, R.layout.listview, titles);
+                L.setAdapter(adapter);
 
 
-            L.setOnItemClickListener(new AdapterView.OnItemClickListener() {////when clicking in any item it gives it's position to use it to get the url
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast toast = Toast.makeText(getApplicationContext(), urls.get(position), Toast.LENGTH_SHORT);
-                    toast.show();
-                    Log.i("lolo","Toast");
-                    intent.putExtra("URL",urls.get(position));//putting the url string into the intent
-                    Log.i("lolo","put extra");
-                    startActivity(intent);///starting the new intent
-                }
-            });
+                L.setOnItemClickListener(new AdapterView.OnItemClickListener() {////when clicking in any item it gives it's position to use it to get the url
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast toast = Toast.makeText(getApplicationContext(), urls.get(position), Toast.LENGTH_SHORT);
+                        toast.show();
+                        intent.putExtra("URL", urls.get(position));//putting the url string into the intent
+                        startActivity(intent);///starting the new intent
+                    }
+                });
 
 
-        }
-        catch (Exception e){
-            Log.i("lolo",e.getMessage());
-
+            } catch (Exception e) {
+                Log.i("lolo", e.getMessage());
+            }
         }
     }
 
@@ -74,5 +78,10 @@ public class MainActivity extends AppCompatActivity {
             urls=magazineList.getUrl();///getting the urls array
 
         }
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }
