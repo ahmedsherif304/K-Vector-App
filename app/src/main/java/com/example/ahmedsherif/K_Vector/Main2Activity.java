@@ -7,8 +7,6 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +17,6 @@ public class Main2Activity extends AppCompatActivity {
     TextView textView;
     String pos;
     DatabaseHelper2 databaseHelper2;
-    public static final String name="Activity2.db";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

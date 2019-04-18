@@ -68,7 +68,8 @@ public class Network {
             scanner =new Scanner(inputStream).useDelimiter("\\A");//changing this data into string using scanner "\\A" means all the data
             jsonstring=scanner.hasNext()? scanner.next():"";//changing the scanner into string ""if it has any data""
             jsonArray=new JSONArray(jsonstring);// converting the string into json array
-            databaseHelper.renew();//READ THE COMMENT IN IT'S CLASS
+
+            databaseHelper.renew();//READ THE COMMENT IN THE CLASS ITSELF
             for (int i=0;i<jsonArray.length();i++){ ///getting objects of the array
                 jsonObject=jsonArray.getJSONObject(i); //getting the  object
                 titles.add(jsonObject.getString("title")); ///adding the object with key title into the titles array
