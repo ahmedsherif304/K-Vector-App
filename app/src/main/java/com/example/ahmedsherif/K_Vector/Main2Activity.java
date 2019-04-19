@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ public class Main2Activity extends AppCompatActivity {
     TextView textView;
     String pos;
     DatabaseHelper2 databaseHelper2;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,11 @@ public class Main2Activity extends AppCompatActivity {
         //boolean function to check the internet connection
         final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
+    public void Home(View v){
+        intent =new Intent (this,MainActivity.class);
+        startActivity(intent);
     }
 
 }
